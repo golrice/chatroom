@@ -9,6 +9,7 @@ import (
 func main() {
 	// create a default server
 	ginServer := NewServer("127.0.0.1", 8080)
+	db = NewDb("127.0.0.1", 3306, "chatroom")
 
 	// init files path
 	ginServer.engine.Static("static", "./static")
