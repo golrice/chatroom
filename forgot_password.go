@@ -24,6 +24,13 @@ func forgotPasswordPage(server *gin.Engine) {
 		// send email to user
 		// get return state from user
 		if ok := sendEmail(email); ok {
+			if err := db.deleteUserByEmail(email); err != nil {
+				ctx.JSON(http.StatusInternalServerError, gin.H{
+					"message": "fail to delete user",
+				})
+				return
+			}
+
 			// if success, redirect to register
 			ctx.Redirect(http.StatusSeeOther, "/register_page")
 			return

@@ -16,8 +16,7 @@ func LoginPage(server *gin.Engine) {
 }
 
 func authenticateUser(username, password string) bool {
-	// TODO: Implement authentication logic here
-	return true
+	return db.authenticate(username, password)
 }
 
 func loginAccess(server *gin.Engine) {
