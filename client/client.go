@@ -13,7 +13,7 @@ import (
 )
 
 var (
-	serverIp   = "172.29.218.119"
+	serverIp   = "51.13.118.186"
 	serverPort = "8080"
 )
 
@@ -39,7 +39,7 @@ func printWelcome() {
 }
 
 func printPrompt(username string) {
-	time.Sleep(100 * time.Millisecond)
+	time.Sleep(time.Second)
 	color.Green("[%s] >> ", username)
 }
 
@@ -82,7 +82,7 @@ func main() {
 			if err := json.Unmarshal(buf[:n], &response); err != nil {
 				color.Red("Error decoding JSON: %v", err)
 			}
-			formatMessage(response.Sender, response.Content)
+			formatMessage(response.Sender, fmt.Sprintf("%s:%s", response.Sender, response.Content))
 		}
 	}()
 
