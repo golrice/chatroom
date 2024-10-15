@@ -12,9 +12,12 @@ import (
 type FunctionTable map[string]func(*PersonalServer, *Message) error
 
 var functionTable = FunctionTable{
-	"login":  Login,
-	"logout": Logout,
-	"send":   SendMsg,
+	"login":   Login,
+	"logout":  Logout,
+	"send":    SendMsg,
+	"show":    ShowOther,
+	"group":   JoinGroup,
+	"display": DisplayHistory,
 }
 
 // 全局服务器表
@@ -25,6 +28,9 @@ var passwordTable = make(map[string]string)
 
 // 全局中心服务器
 var centerServer = NewCentralServer()
+
+// 全局群聊维护表
+var groupTable = make(map[string][]string)
 
 func main() {
 	listener, err := net.Listen("tcp", ":8080")
@@ -137,6 +143,7 @@ func handleConnection(conn net.Conn) {
 		personal_server = NewPersonalServer(conn, make(map[string][]Message))
 		serverTable[username] = personal_server
 	}
+	personal_server.Conn = conn
 
 	for {
 		// 读取信息
@@ -216,6 +223,7 @@ func handleConnection(conn net.Conn) {
 				personal_server = NewPersonalServer(conn, make(map[string][]Message))
 				serverTable[username] = personal_server
 			}
+			personal_server.Conn = conn
 		}
 	}
 }
